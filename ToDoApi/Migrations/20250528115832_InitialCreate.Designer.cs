@@ -11,7 +11,7 @@ using ToDoList.Models;
 namespace ToDoApi.Migrations
 {
     [DbContext(typeof(ToDoListContext))]
-    [Migration("20250528075243_InitialCreate")]
+    [Migration("20250528115832_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -48,7 +48,7 @@ namespace ToDoApi.Migrations
                     b.Property<int>("CategoryId")
                         .HasColumnType("INTEGER");
 
-                    b.Property<bool?>("Completed")
+                    b.Property<bool>("Completed")
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("Description")
@@ -63,20 +63,7 @@ namespace ToDoApi.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CategoryId");
-
                     b.ToTable("Todos");
-                });
-
-            modelBuilder.Entity("ToDoList.Models.Todo", b =>
-                {
-                    b.HasOne("ToDoList.Models.Category", "Category")
-                        .WithMany()
-                        .HasForeignKey("CategoryId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Category");
                 });
 #pragma warning restore 612, 618
         }

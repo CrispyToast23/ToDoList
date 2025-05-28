@@ -6,6 +6,15 @@ namespace ToDoList.Models
 {
     public class Todo
     {
+        public Todo(string title, string? description, DateTime expirationDate, int categoryId)
+        {
+            Title = title;
+            Description = description;
+            ExpirationDate = expirationDate;
+            CategoryId = categoryId;
+            Completed = false;
+        }
+
         [Key]
         public int Id { get; set; }
         [ForeignKey(nameof(Id))]
@@ -13,8 +22,6 @@ namespace ToDoList.Models
         public string Title { get; set; }
         public string? Description { get; set; }
         public DateTime ExpirationDate { get; set; }
-        public bool? Completed { get; set; }
-        [JsonIgnore]
-        public Category Category { get; set; }
+        public bool Completed { get; set; }
     }
 }

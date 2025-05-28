@@ -35,33 +35,22 @@ namespace ToDoApi.Migrations
                     Title = table.Column<string>(type: "TEXT", nullable: false),
                     Description = table.Column<string>(type: "TEXT", nullable: true),
                     ExpirationDate = table.Column<DateTime>(type: "TEXT", nullable: false),
-                    Completed = table.Column<bool>(type: "INTEGER", nullable: true)
+                    Completed = table.Column<bool>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Todos", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Todos_Categories_CategoryId",
-                        column: x => x.CategoryId,
-                        principalTable: "Categories",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
                 });
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Todos_CategoryId",
-                table: "Todos",
-                column: "CategoryId");
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Todos");
+                name: "Categories");
 
             migrationBuilder.DropTable(
-                name: "Categories");
+                name: "Todos");
         }
     }
 }

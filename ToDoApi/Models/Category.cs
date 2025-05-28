@@ -4,6 +4,12 @@ namespace ToDoList.Models
 {
     public class Category
     {
+        public Category(string name, string color) 
+        { 
+            Name = name; 
+            Color = color;
+        }
+
         [Key]
         public int Id { get; set; }
         public string Name { get; set; }
