@@ -18,7 +18,7 @@ namespace ToDoApi
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
 
-            builder.Services.AddDbContext<ToDoListContext>(options => 
+            builder.Services.AddDbContext<TodoListContext>(options => 
                 options.UseSqlite("Data Source=todo.db"));
 
             var app = builder.Build();

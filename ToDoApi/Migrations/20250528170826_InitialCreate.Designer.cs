@@ -10,8 +10,8 @@ using ToDoList.Models;
 
 namespace ToDoApi.Migrations
 {
-    [DbContext(typeof(ToDoListContext))]
-    [Migration("20250528115832_InitialCreate")]
+    [DbContext(typeof(TodoListContext))]
+    [Migration("20250528170826_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />

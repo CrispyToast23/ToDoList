@@ -2,11 +2,11 @@
 
 namespace ToDoList.Models
 {
-    public class ToDoListContext : DbContext
+    public class TodoListContext : DbContext
     {
         public DbSet<Todo> Todos { get; set; }
         public DbSet<Category> Categories { get; set; }
 
-        public ToDoListContext(DbContextOptions<ToDoListContext> options) : base(options) { }
+        public TodoListContext(DbContextOptions<TodoListContext> options) : base(options) { }
     }
 }

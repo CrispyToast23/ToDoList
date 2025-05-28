@@ -9,8 +9,8 @@ using ToDoList.Models;
 
 namespace ToDoApi.Migrations
 {
-    [DbContext(typeof(ToDoListContext))]
-    partial class ToDoListContextModelSnapshot : ModelSnapshot
+    [DbContext(typeof(TodoListContext))]
+    partial class TodoListContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)
         {

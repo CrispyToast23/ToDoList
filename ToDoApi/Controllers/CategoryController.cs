@@ -8,17 +8,17 @@ namespace ToDoApi.Controllers
     [Route("api/[controller]")]
     public class CategoryController : ControllerBase
     {
-        private readonly ToDoListContext _toDoListContext;
+        private readonly TodoListContext _todoListContext;
 
-        public CategoryController(ToDoListContext toDoListContext)
+        public CategoryController(TodoListContext todoListContext)
         {
-            _toDoListContext = toDoListContext;
+            _todoListContext = todoListContext;
         }
 
         [HttpGet("GetAllCategories")]
         public List<Category> GetAllCategories()
         {
-            var t = _toDoListContext.Categories.ToList();
+            var t = _todoListContext.Categories.ToList();
 
             return t;
         }
@@ -29,8 +29,8 @@ namespace ToDoApi.Controllers
             try
             {
                 Category category = new(name, color);
-                _toDoListContext.Categories.Add(category);
-                _toDoListContext.SaveChanges();
+                _todoListContext.Categories.Add(category);
+                _todoListContext.SaveChanges();
             } catch (Exception ex) 
             {
                 return ex.Message;

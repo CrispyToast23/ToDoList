@@ -7,33 +7,68 @@ namespace ToDoApi.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class ToDoController : ControllerBase
+    public class TodoController : ControllerBase
     {
-        private readonly ToDoListContext _toDoListContext;
+        private readonly TodoListContext _todoListContext;
 
-        public ToDoController(ToDoListContext toDoListContext)
+        public TodoController(TodoListContext todoListContext)
         {
-            _toDoListContext = toDoListContext;
+            _todoListContext = todoListContext;
         }
 
         [HttpGet("GetAllTodos")]
         public List<TodoModel> GetAllTodos()
         {
-            List<TodoModel> todos = _toDoListContext.Todos.Join(
-                _toDoListContext.Categories,
-                e => e.CategoryId,
-                x => x.Id,
-                (e, x) => new TodoModel
+            List<TodoModel> todos = new();
+            try
+            {
+                todos = _todoListContext.Todos.Join(
+                _todoListContext.Categories,
+                todo => todo.CategoryId,
+                category => category.Id,
+                (todo, category) => new TodoModel
                 {
-                    Id = e.Id,
-                    Title = e.Title,
-                    Description= e.Description,
-                    ExpirationDate = e.ExpirationDate,
-                    Completed= e.Completed,
-                    CategoryName = x.Name,
+                    Id = todo.Id,
+                    Title = todo.Title,
+                    Description = todo.Description,
+                    ExpirationDate = todo.ExpirationDate,
+                    Completed = todo.Completed,
+                    CategoryName = category.Name,
                 }).ToList();
-
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
             return todos;
+        }
+
+        [HttpGet("GetTodoById")]
+        public TodoModel GetTodoById(int id)
+        {
+            TodoModel todo = new();
+            try
+            {
+                todo = _todoListContext.Todos
+                    .Where(todo => todo.Id == id)
+                    .Join(_todoListContext.Categories,
+                    todo => todo.CategoryId,
+                    category => category.Id,
+                    (todo, category) => new TodoModel
+                    {
+                        Id = todo.Id,
+                        Title = todo.Title,
+                        Description = todo.Description,
+                        ExpirationDate = todo.ExpirationDate,
+                        Completed = todo.Completed,
+                        CategoryName = category.Name,
+                    }).FirstOrDefault();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+            return todo;
         }
 
         [HttpGet("CreateTodo")]
@@ -41,14 +76,38 @@ namespace ToDoApi.Controllers
         {
             try
             {
-                Category category = _toDoListContext.Categories.Where(e => e.Name == categoryName).First();
+                Category category = _todoListContext.Categories.Where(e => e.Name == categoryName).FirstOrDefault();
                 Todo todo = new(title, description, expirationDate, category.Id);
-                _toDoListContext.Todos.Add(todo);
-                _toDoListContext.SaveChanges();
-            } catch (Exception ex) 
+                _todoListContext.Todos.Add(todo);
+                _todoListContext.SaveChanges();
+            }
+            catch (Exception ex)
             {
                 return ex.Message;
             }
+            return "Success!";
+        }
+
+        [HttpGet("EditTodo")]
+        public string EditTodo(int id, int? categoryId, string? title, string? description, DateTime? expirationDate, bool? completed)
+        {
+            try
+            {
+                Todo currentTodo = _todoListContext.Todos.Where(e => e.Id == id).FirstOrDefault();
+
+                currentTodo.Title = title;
+                currentTodo.Description = description;
+                currentTodo.ExpirationDate = (DateTime)expirationDate;
+                currentTodo.Completed = (bool)completed;
+                currentTodo.CategoryId = (int)categoryId;
+
+                _todoListContext.SaveChanges();
+            }
+            catch (Exception ex)
+            {
+                return ex.Message;
+            }
+
             return "Success!";
         }
     }
