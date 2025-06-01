@@ -1,0 +1,26 @@
+﻿@page "/Edit"
+@model ToDoApi.Models.Todo
+
+<h2>Aufgabe bearbeiten</h2>
+
+<form asp-action="Edit" method="get">
+	<input type="hidden" asp-for="Id" />
+	<div>
+		<label asp-for="Title"></label>
+		<input asp-for="Title" />
+		<span asp-validation-for="Title"></span>
+	</div>
+	<div>
+		<label asp-for="Description"></label>
+		<input asp-for="Description" />
+	</div>
+	<div>
+		<label asp-for="ExpirationDate"></label>
+		<input asp-for="ExpirationDate" type="date" />
+	</div>
+	<div>
+		<label asp-for="Completed"></label>
+		<input asp-for="Completed" type="checkbox" />
+	</div>
+	<button type="submit">Speichern</button>
+</form>

@@ -4,14 +4,14 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using ToDoList.Models;
+using ToDoApi.Models;
 
 #nullable disable
 
 namespace ToDoApi.Migrations
 {
     [DbContext(typeof(TodoListContext))]
-    [Migration("20250528170826_InitialCreate")]
+    [Migration("20250530150007_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -20,7 +20,7 @@ namespace ToDoApi.Migrations
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "8.0.16");
 
-            modelBuilder.Entity("ToDoList.Models.Category", b =>
+            modelBuilder.Entity("ToDoApi.Models.Category", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -39,7 +39,7 @@ namespace ToDoApi.Migrations
                     b.ToTable("Categories");
                 });
 
-            modelBuilder.Entity("ToDoList.Models.Todo", b =>
+            modelBuilder.Entity("ToDoApi.Models.Todo", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()

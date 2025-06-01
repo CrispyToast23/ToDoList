@@ -1,7 +1,7 @@
 
 using Microsoft.EntityFrameworkCore;
 using System;
-using ToDoList.Models;
+using ToDoApi.Models;
 
 namespace ToDoApi
 {

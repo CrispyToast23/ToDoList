@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using ToDoList.Models;
+using ToDoApi.Models;
 
 namespace ToDoApi.Controllers
 {
@@ -18,9 +18,9 @@ namespace ToDoApi.Controllers
         [HttpGet("GetAllCategories")]
         public List<Category> GetAllCategories()
         {
-            var t = _todoListContext.Categories.ToList();
+            var categories = _todoListContext.Categories.ToList();
 
-            return t;
+            return categories;
         }
 
         [HttpGet("CreateCategory")]

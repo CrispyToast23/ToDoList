@@ -1,7 +1,8 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using ToDoApi.Models;
 using ToDoApi.ViewModels;
-using ToDoList.Models;
 
 namespace ToDoApi.Controllers
 {
@@ -76,8 +77,8 @@ namespace ToDoApi.Controllers
         {
             try
             {
-                Category category = _todoListContext.Categories.Where(e => e.Name == categoryName).FirstOrDefault();
-                Todo todo = new(title, description, expirationDate, category.Id);
+                int categoryId = _todoListContext.Categories.Where(e => e.Name == categoryName).FirstOrDefault().Id;
+                Todo todo = new(title, description, expirationDate, categoryId);
                 _todoListContext.Todos.Add(todo);
                 _todoListContext.SaveChanges();
             }
@@ -89,17 +90,17 @@ namespace ToDoApi.Controllers
         }
 
         [HttpGet("EditTodo")]
-        public string EditTodo(int id, int? categoryId, string? title, string? description, DateTime? expirationDate, bool? completed)
+        public string EditTodo(int id, Todo selectedTodo)
         {
             try
             {
-                Todo currentTodo = _todoListContext.Todos.Where(e => e.Id == id).FirstOrDefault();
+                var currentTodo = _todoListContext.Todos.Find(id);
 
-                currentTodo.Title = title;
-                currentTodo.Description = description;
-                currentTodo.ExpirationDate = (DateTime)expirationDate;
-                currentTodo.Completed = (bool)completed;
-                currentTodo.CategoryId = (int)categoryId;
+                currentTodo.Title = selectedTodo.Title;
+                currentTodo.Description = selectedTodo.Description;
+                currentTodo.ExpirationDate = selectedTodo.ExpirationDate;
+                currentTodo.Completed = selectedTodo.Completed;
+                currentTodo.CategoryId = selectedTodo.CategoryId;
 
                 _todoListContext.SaveChanges();
             }
@@ -107,7 +108,23 @@ namespace ToDoApi.Controllers
             {
                 return ex.Message;
             }
+            return "Success!";
+        }
 
+        [HttpGet("DeleteTodo")]
+        public string DeleteTodo(int id)
+        {
+            try
+            {
+                var currentTodo = _todoListContext.Todos.Find(id);
+                _todoListContext.Todos.Remove(currentTodo);
+
+                _todoListContext.SaveChanges();
+            }
+            catch (Exception ex)
+            {
+                return ex.Message;
+            }
             return "Success!";
         }
     }
